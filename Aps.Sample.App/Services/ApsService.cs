@@ -13,7 +13,6 @@ namespace Aps.Sample.App.Services
         string client_secret = null;
 
         string url = "https://aps-single-page.glitch.me/";
-        //string url = "http://localhost:5000/";
 
         List<Scopes> scopes = new List<Scopes>() { Scopes.UserProfileRead };
         string codeVerifier = null;
@@ -95,8 +94,24 @@ namespace Aps.Sample.App.Services
             }
         }
 
+        public async Task EnsureTokenIsValid()
+        {
+            if (ThreeLeggedToken is null)
+            {
+                throw new Exception("Not logged in.");
+            }
+
+            var token = await authenticationClient.IntrospectTokenAsync(ThreeLeggedToken.AccessToken, client_id, client_secret);
+            //Debug.WriteLine($"Token: {token.Active} {token.Exp}");
+            if (token.Active == false)
+            {
+                await RefreshToken();
+            }
+        }
+
         public async Task<UserInfo> GetUserInfoAsync()
         {
+            await EnsureTokenIsValid();
             return await authenticationClient.GetUserInfoAsync(ThreeLeggedToken.AccessToken);
         }
 

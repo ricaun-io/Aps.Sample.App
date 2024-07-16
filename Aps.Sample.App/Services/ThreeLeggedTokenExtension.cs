@@ -1,4 +1,5 @@
 ﻿using Autodesk.Authentication.Model;
+using System.Diagnostics;
 using System.IO;
 
 namespace Aps.Sample.App.Services
@@ -17,6 +18,8 @@ namespace Aps.Sample.App.Services
 
         public static ThreeLeggedToken Save(this ThreeLeggedToken threeLeggedToken)
         {
+            Debug.WriteLine($"Save: {threeLeggedToken?.GetHashCode()}");
+
             if (threeLeggedToken is null)
             {
                 if (File.Exists(FileName))
