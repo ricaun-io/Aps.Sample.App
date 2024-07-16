@@ -1,7 +1,9 @@
 # Aps.Sample.App
 
-[![Autodesk](https://img.shields.io/badge/Autodesk-black?logo=autodesk&logoColor=white)](../..)
+[![Autodesk Platform Service](https://img.shields.io/badge/Autodesk%20Platform%20Service-black?logo=autodesk&logoColor=white)](../..)
+[![Visual Studio 2022](https://img.shields.io/badge/Visual%20Studio-2022-blue)](../..)
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![.NET 6.0](https://img.shields.io/badge/.NET%20Core-6.0-blue)](../..)
 
 Desktop application to connect an Autodesk account using [Autodesk Platform Service - Authentication with PKCE](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-3-legged-token-pkce/).
 
