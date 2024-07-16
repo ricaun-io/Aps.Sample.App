@@ -3,7 +3,7 @@
 [![Autodesk](https://img.shields.io/badge/Autodesk-black?logo=autodesk&logoColor=white)](../..)
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Desktop application to connect an Autodesk account using Autodesk Platform Service [Authentication with PKCE](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-3-legged-token-pkce/).
+Desktop application to connect an Autodesk account using [Autodesk Platform Service - Authentication with PKCE](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-3-legged-token-pkce/).
 
 ![Aps.Sample.App](assets/Aps.Sample.App.gif)
 
