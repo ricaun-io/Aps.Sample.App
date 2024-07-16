@@ -5,6 +5,8 @@
 
 Desktop application to connect an Autodesk account using Autodesk Platform Service [Authentication with PKCE](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/get-3-legged-token-pkce/).
 
+![Aps.Sample.App](assets/Aps.Sample.App.gif)
+
 ## Release
 
 * [Latest release](../../releases/latest)
