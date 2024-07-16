@@ -8,10 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Resources\autodesk.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autodesk.Authentication" Version="2.0.0-beta" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\autodesk.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    
+  </PropertyGroup>
+  
   
   <!-- Fody -->
   <ItemGroup>
@@ -23,6 +37,7 @@
         <PropertyChanged />
       </Weavers>
     </WeaverConfiguration>
+    <ApplicationIcon>Resources\autodesk.ico</ApplicationIcon>
   </PropertyGroup>
 
 </Project>
