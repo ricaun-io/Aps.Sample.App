@@ -16,17 +16,11 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
   </ItemGroup>
-  <ItemGroup>
-    <None Update="Resources\autodesk.ico">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+
   <PropertyGroup>
-    
+    <ApplicationIcon>Resources\autodesk.ico</ApplicationIcon>
   </PropertyGroup>
-  
-  
+
   <!-- Fody -->
   <ItemGroup>
     <PackageReference Include="PropertyChanged.Fody" Version="3.*" PrivateAssets="all" />
@@ -37,7 +31,7 @@
         <PropertyChanged />
       </Weavers>
     </WeaverConfiguration>
-    <ApplicationIcon>Resources\autodesk.ico</ApplicationIcon>
   </PropertyGroup>
+
 
 </Project>
