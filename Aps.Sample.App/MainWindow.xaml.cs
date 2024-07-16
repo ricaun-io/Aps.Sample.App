@@ -9,7 +9,7 @@ namespace Aps.Sample.App
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel(ApsService);
+            DataContext = new MainViewModel(this, ApsService);
         }
     }
 }

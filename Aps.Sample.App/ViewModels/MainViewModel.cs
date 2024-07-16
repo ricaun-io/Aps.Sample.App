@@ -3,16 +3,18 @@ using Aps.Sample.App.ViewModels;
 using Aps.Sample.App.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace Aps.Sample.App
 {
     public partial class MainViewModel : ObservableObject
     {
-        private ApsService ApsService;
+        private readonly Window window;
+        private readonly ApsService ApsService;
 
-        public MainViewModel(ApsService apsService)
+        public MainViewModel(Window window, ApsService apsService)
         {
+            this.window = window;
             ApsService = apsService;
             User.Name = "Login";
 
@@ -42,6 +44,7 @@ namespace Aps.Sample.App
             }
 
             var view = new WebViewLogin(ApsService.Authorize(), "Login with Autodesk Account.");
+            view.Owner = window;
             try
             {
                 var code = await view.ShowGetCodeAsync();

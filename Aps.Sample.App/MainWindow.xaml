@@ -7,7 +7,6 @@
         xmlns:local="clr-namespace:Aps.Sample.App"
         xmlns:web="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
-        Topmost="True"
         WindowStartupLocation="CenterScreen"
         Title="Aps.Sample"
         Height="240"
