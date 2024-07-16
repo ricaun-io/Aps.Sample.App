@@ -1,9 +1,10 @@
 ﻿using Autodesk.Authentication;
 using Autodesk.Authentication.Model;
 using Autodesk.SDKManager;
+using System.Diagnostics;
 using System.Text;
 
-namespace Aps.Sample.App
+namespace Aps.Sample.App.Services
 {
     public class ApsService
     {
@@ -25,6 +26,7 @@ namespace Aps.Sample.App
               .Build();
 
             authenticationClient = new AuthenticationClient(sdkManager);
+            ThreeLeggedToken = ThreeLeggedToken.Load();
         }
 
         public string Authorize()
@@ -33,6 +35,9 @@ namespace Aps.Sample.App
             var codeChallengeMethod = "S256";
 
             return authenticationClient.Authorize(client_id, ResponseType.Code, url, scopes,
+#if !DEBUG
+                prompt:"login",
+#endif
                 codeChallenge: codeChallenge,
                 codeChallengeMethod: codeChallengeMethod);
         }
@@ -66,6 +71,28 @@ namespace Aps.Sample.App
                 url,
                 client_secret,
                 codeVerifier: codeVerifier);
+
+            ThreeLeggedToken.Save();
+        }
+
+        public async Task RefreshToken()
+        {
+            if (ThreeLeggedToken is null) return;
+
+            try
+            {
+                ThreeLeggedToken = await authenticationClient.RefreshTokenAsync(
+                clientId: client_id,
+                clientSecret: client_secret,
+                refreshToken: ThreeLeggedToken.RefreshToken);
+
+                ThreeLeggedToken.Save();
+            }
+            catch
+            {
+                ThreeLeggedToken = null;
+                throw;
+            }
         }
 
         public async Task<UserInfo> GetUserInfoAsync()
@@ -73,13 +100,19 @@ namespace Aps.Sample.App
             return await authenticationClient.GetUserInfoAsync(ThreeLeggedToken.AccessToken);
         }
 
+        public bool IsLoggedIn()
+        {
+            return ThreeLeggedToken is not null;
+        }
+
         public async Task Logout()
         {
             if (ThreeLeggedToken is null) return;
-            
+
             var token = ThreeLeggedToken.AccessToken;
             var refreshToken = ThreeLeggedToken.RefreshToken;
             ThreeLeggedToken = null;
+            ThreeLeggedToken.Save();
 
             await authenticationClient.RevokeAsync(token, client_id, client_secret, TokenTypeHint.AccessToken);
             await authenticationClient.RevokeAsync(token, client_id, client_secret, TokenTypeHint.RefreshToken);

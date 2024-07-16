@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Aps.Sample.App.Services;
 
 namespace Aps.Sample.App
 {

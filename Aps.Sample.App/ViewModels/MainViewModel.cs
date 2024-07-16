@@ -1,5 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Aps.Sample.App.Services;
+using Aps.Sample.App.ViewModels;
+using Aps.Sample.App.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
 
 namespace Aps.Sample.App
 {
@@ -11,6 +15,17 @@ namespace Aps.Sample.App
         {
             ApsService = apsService;
             User.Name = "Login";
+
+            if (apsService.IsLoggedIn())
+            {
+                var task = Task.Run(async () =>
+                {
+                    var userInfo = await ApsService.GetUserInfoAsync();
+                    User.Name = userInfo.Name;
+                    User.Image = userInfo.Picture;
+                });
+            }
+
         }
 
         public User User { get; set; } = new User();

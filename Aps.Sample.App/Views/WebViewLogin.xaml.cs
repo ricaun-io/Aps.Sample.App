@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using System.Web;
 using System.Windows;
 
-namespace Aps.Sample.App
+namespace Aps.Sample.App.Views
 {
     public partial class WebViewLogin : Window
     {
@@ -10,6 +11,9 @@ namespace Aps.Sample.App
         public WebViewLogin(string url, string title = null)
         {
             InitializeComponent();
+
+            webView2.InitializeWebAsync().GetAwaiter();
+
             if (!string.IsNullOrEmpty(title))
             {
                 Title = title;

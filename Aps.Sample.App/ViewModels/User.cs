@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Aps.Sample.App
+namespace Aps.Sample.App.ViewModels
 {
     public class User : ObservableObject
     {
