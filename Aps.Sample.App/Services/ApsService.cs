@@ -8,15 +8,26 @@ namespace Aps.Sample.App.Services
 {
     public class ApsService
     {
+        #region Fields
+
         AuthenticationClient authenticationClient = null!;
         string client_id = "LtSI0DgPFsVmBLndZSsG8a2pb1unHNJu";
         string client_secret = null;
 
-        string url = "https://aps-single-page.glitch.me/";
+        string _callbackUri = "https://aps-single-page.glitch.me/";
 
         List<Scopes> scopes = new List<Scopes>() { Scopes.UserProfileRead };
         string codeVerifier = null;
         ThreeLeggedToken ThreeLeggedToken = null;
+        #endregion
+
+        #region Properties
+
+        public string callbackUri { get => _callbackUri;  }
+
+        #endregion
+
+        #region Constructors
 
         public ApsService()
         {
@@ -28,12 +39,16 @@ namespace Aps.Sample.App.Services
             ThreeLeggedToken = ThreeLeggedToken.Load();
         }
 
+        #endregion
+
+        #region Methods
+
         public string Authorize()
         {
             var codeChallenge = CreateCodeChallenge();
             var codeChallengeMethod = "S256";
 
-            return authenticationClient.Authorize(client_id, ResponseType.Code, url, scopes,
+            return authenticationClient.Authorize(client_id, ResponseType.Code, _callbackUri, scopes,
 #if !DEBUG
                 prompt:"login",
 #endif
@@ -67,7 +82,7 @@ namespace Aps.Sample.App.Services
             ThreeLeggedToken = await authenticationClient.GetThreeLeggedTokenAsync(
                 client_id,
                 code,
-                url,
+                _callbackUri,
                 client_secret,
                 codeVerifier: codeVerifier);
 
@@ -132,5 +147,8 @@ namespace Aps.Sample.App.Services
             await authenticationClient.RevokeAsync(token, client_id, client_secret, TokenTypeHint.AccessToken);
             await authenticationClient.RevokeAsync(token, client_id, client_secret, TokenTypeHint.RefreshToken);
         }
+
+        #endregion
+
     }
 }
