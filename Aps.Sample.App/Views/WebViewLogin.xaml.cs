@@ -7,10 +7,26 @@ namespace Aps.Sample.App.Views
 {
     public partial class WebViewLogin : Window
     {
+        #region Fields
+
+        readonly string _callbackUrl;
+        TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
+
+        #endregion
+
+        #region Properties
+
         public string Code { get; set; }
-        public WebViewLogin(string url, string title = null)
+
+        #endregion
+
+        #region Constructors
+
+        public WebViewLogin(string url, string callbackUrl, string title = null)
         {
             InitializeComponent();
+
+            _callbackUrl = callbackUrl;
 
             webView2.InitializeWebAsync().GetAwaiter();
 
@@ -33,7 +49,10 @@ namespace Aps.Sample.App.Views
                 }
             };
         }
-        TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
+        #endregion
+
+        #region Methods
+
         public Task<string> GetCodeAsync()
         {
             return tcs.Task;
@@ -47,14 +66,22 @@ namespace Aps.Sample.App.Views
 
         private void WebView2_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
         {
-            var query = e.Uri.Split('?').LastOrDefault();
-            var querys = HttpUtility.ParseQueryString(query);
-            if (querys.Get("code") is string code)
+            var splittedUri = e.Uri.Split('?');
+            if (splittedUri.First() == _callbackUrl)
             {
-                Code = code;
-                tcs.SetResult(code);
-                this.Close();
+                var query = e.Uri.Split('?').LastOrDefault();
+                var querys = HttpUtility.ParseQueryString(query);
+                if (querys.Get("code") is string code)
+                {
+                    Code = code;
+                    tcs.SetResult(code);
+                    this.Close();
+                }
             }
+
         }
+
+        #endregion
+
     }
 }
