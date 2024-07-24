@@ -23,7 +23,7 @@ namespace Aps.Sample.App.Services
 
         #region Properties
 
-        public string callbackUri { get => _callbackUri;  }
+        public string CallbackUri { get => _callbackUri;  }
 
         #endregion
 

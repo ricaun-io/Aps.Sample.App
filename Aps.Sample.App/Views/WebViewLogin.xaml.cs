@@ -69,7 +69,7 @@ namespace Aps.Sample.App.Views
             var splittedUri = e.Uri.Split('?');
             if (splittedUri.First() == _callbackUrl)
             {
-                var query = e.Uri.Split('?').LastOrDefault();
+                var query = splittedUri.LastOrDefault();
                 var querys = HttpUtility.ParseQueryString(query);
                 if (querys.Get("code") is string code)
                 {

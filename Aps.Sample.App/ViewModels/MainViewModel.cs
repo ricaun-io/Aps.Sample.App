@@ -43,7 +43,7 @@ namespace Aps.Sample.App
                 return;
             }
 
-            var view = new WebViewLogin(ApsService.Authorize(), ApsService.callbackUri, "Login with Autodesk Account.");
+            var view = new WebViewLogin(ApsService.Authorize(), ApsService.CallbackUri, "Login with Autodesk Account.");
             view.Owner = window;
             try
             {
