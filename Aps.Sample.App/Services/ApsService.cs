@@ -12,7 +12,6 @@ namespace Aps.Sample.App.Services
 
         AuthenticationClient authenticationClient = null!;
         string client_id = "LtSI0DgPFsVmBLndZSsG8a2pb1unHNJu";
-        string client_secret = null;
 
         string _callbackUri = "https://aps-single-page.glitch.me/";
 
@@ -23,7 +22,7 @@ namespace Aps.Sample.App.Services
 
         #region Properties
 
-        public string CallbackUri { get => _callbackUri;  }
+        public string CallbackUri { get => _callbackUri; }
 
         #endregion
 
@@ -83,7 +82,7 @@ namespace Aps.Sample.App.Services
                 client_id,
                 code,
                 _callbackUri,
-                client_secret,
+                clientSecret: null,
                 codeVerifier: codeVerifier);
 
             ThreeLeggedToken.Save();
@@ -97,7 +96,7 @@ namespace Aps.Sample.App.Services
             {
                 ThreeLeggedToken = await authenticationClient.RefreshTokenAsync(
                 clientId: client_id,
-                clientSecret: client_secret,
+                clientSecret: null,
                 refreshToken: ThreeLeggedToken.RefreshToken);
 
                 ThreeLeggedToken.Save();
@@ -116,7 +115,7 @@ namespace Aps.Sample.App.Services
                 throw new Exception("Not logged in.");
             }
 
-            var token = await authenticationClient.IntrospectTokenAsync(ThreeLeggedToken.AccessToken, client_id, client_secret);
+            var token = await authenticationClient.IntrospectTokenAsync(ThreeLeggedToken.AccessToken, client_id, clientSecret: null);
             //Debug.WriteLine($"Token: {token.Active} {token.Exp}");
             if (token.Active == false)
             {
@@ -144,8 +143,8 @@ namespace Aps.Sample.App.Services
             ThreeLeggedToken = null;
             ThreeLeggedToken.Save();
 
-            await authenticationClient.RevokeAsync(token, client_id, client_secret, TokenTypeHint.AccessToken);
-            await authenticationClient.RevokeAsync(token, client_id, client_secret, TokenTypeHint.RefreshToken);
+            await authenticationClient.RevokeAsync(token, client_id, clientSecret: null, TokenTypeHint.AccessToken);
+            await authenticationClient.RevokeAsync(token, client_id, clientSecret: null, TokenTypeHint.RefreshToken);
         }
 
         #endregion
