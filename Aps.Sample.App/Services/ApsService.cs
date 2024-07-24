@@ -1,7 +1,6 @@
 ﻿using Autodesk.Authentication;
 using Autodesk.Authentication.Model;
 using Autodesk.SDKManager;
-using System.Diagnostics;
 using System.Text;
 
 namespace Aps.Sample.App.Services
@@ -9,27 +8,35 @@ namespace Aps.Sample.App.Services
     public class ApsService
     {
         #region Fields
-
         AuthenticationClient authenticationClient = null!;
-        string client_id = "LtSI0DgPFsVmBLndZSsG8a2pb1unHNJu";
-
-        string _callbackUri = "https://aps-single-page.glitch.me/";
-
-        List<Scopes> scopes = new List<Scopes>() { Scopes.UserProfileRead };
         string codeVerifier = null;
         ThreeLeggedToken ThreeLeggedToken = null;
         #endregion
 
         #region Properties
-
-        public string CallbackUri { get => _callbackUri; }
-
+        public string ClientId { get; private set; }
+        public string CallbackUrl { get; private set; }
+        public Scopes[] Scopes { get; private set; }
         #endregion
 
         #region Constructors
 
-        public ApsService()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApsService"/> class.
+        /// </summary>
+        /// <param name="clientId">The client ID.</param>
+        /// <param name="callbackUrl">The callback URL.</param>
+        /// <param name="scopes">The scopes.</param>
+        public ApsService(string clientId, string callbackUrl, params Scopes[] scopes)
         {
+            this.ClientId = clientId;
+            this.CallbackUrl = callbackUrl;
+
+            if (scopes.Length == 0) 
+                scopes = new Scopes[] { Autodesk.Authentication.Model.Scopes.UserProfileRead };
+
+            this.Scopes = scopes;
+
             SDKManager sdkManager = SdkManagerBuilder
               .Create()
               .Build();
@@ -47,7 +54,7 @@ namespace Aps.Sample.App.Services
             var codeChallenge = CreateCodeChallenge();
             var codeChallengeMethod = "S256";
 
-            return authenticationClient.Authorize(client_id, ResponseType.Code, _callbackUri, scopes,
+            return authenticationClient.Authorize(ClientId, ResponseType.Code, CallbackUrl, Scopes.ToList(),
 #if !DEBUG
                 prompt:"login",
 #endif
@@ -79,9 +86,9 @@ namespace Aps.Sample.App.Services
         public async Task GetPKCEThreeLeggedTokenAsync(string code)
         {
             ThreeLeggedToken = await authenticationClient.GetThreeLeggedTokenAsync(
-                client_id,
+                ClientId,
                 code,
-                _callbackUri,
+                CallbackUrl,
                 clientSecret: null,
                 codeVerifier: codeVerifier);
 
@@ -95,7 +102,7 @@ namespace Aps.Sample.App.Services
             try
             {
                 ThreeLeggedToken = await authenticationClient.RefreshTokenAsync(
-                clientId: client_id,
+                clientId: ClientId,
                 clientSecret: null,
                 refreshToken: ThreeLeggedToken.RefreshToken);
 
@@ -115,7 +122,7 @@ namespace Aps.Sample.App.Services
                 throw new Exception("Not logged in.");
             }
 
-            var token = await authenticationClient.IntrospectTokenAsync(ThreeLeggedToken.AccessToken, client_id, clientSecret: null);
+            var token = await authenticationClient.IntrospectTokenAsync(ThreeLeggedToken.AccessToken, ClientId, clientSecret: null);
             //Debug.WriteLine($"Token: {token.Active} {token.Exp}");
             if (token.Active == false)
             {
@@ -143,8 +150,8 @@ namespace Aps.Sample.App.Services
             ThreeLeggedToken = null;
             ThreeLeggedToken.Save();
 
-            await authenticationClient.RevokeAsync(token, client_id, clientSecret: null, TokenTypeHint.AccessToken);
-            await authenticationClient.RevokeAsync(token, client_id, clientSecret: null, TokenTypeHint.RefreshToken);
+            await authenticationClient.RevokeAsync(token, ClientId, clientSecret: null, TokenTypeHint.AccessToken);
+            await authenticationClient.RevokeAsync(token, ClientId, clientSecret: null, TokenTypeHint.RefreshToken);
         }
 
         #endregion
