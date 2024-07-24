@@ -6,7 +6,7 @@ namespace Aps.Sample.App
     public partial class MainWindow : Window
     {
         private static string ClientId = "LtSI0DgPFsVmBLndZSsG8a2pb1unHNJu";
-        private static string CallbackUrl = "https://aps-single-page.glitch.me/";
+        private static string CallbackUrl = "http://localhost:8080/";
 
         ApsService ApsService = new ApsService(ClientId, CallbackUrl);
 

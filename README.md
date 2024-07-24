@@ -9,6 +9,15 @@ Desktop application to connect an Autodesk account using [Autodesk Platform Serv
 
 ![Aps.Sample.App](assets/Aps.Sample.App.gif)
 
+## How to use
+
+### Create an Aps Application
+
+1. Go to [Autodesk Platform Service](https://aps.autodesk.com/).
+2. Create an application with the type [Desktop, Mobile, Single-Page App](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app/).
+3. Copy the `Client ID` and `Callback URL`.
+4. Paste the `Client ID` and `Callback URL` in the [MainWindow.xaml.cs](Aps.Sample.App/MainWindow.xaml.cs) file.
+
 ## Video
 
 Videos in English about this project.

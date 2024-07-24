@@ -3,10 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aps.Sample.App", "Aps.Sample.App\Aps.Sample.App.csproj", "{2B6F8F77-99F5-4EC2-9EF9-5E0404883F37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aps.Sample.App", "Aps.Sample.App\Aps.Sample.App.csproj", "{2B6F8F77-99F5-4EC2-9EF9-5E0404883F37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{79FCC569-0A1D-43FB-ADE1-83A0EA8C08E5}"
 	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
 		README.md = README.md
 	EndProjectSection
 EndProject
